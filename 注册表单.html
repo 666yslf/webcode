@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:Arial,"Microsoft YaHei",sans-serif; background:#f4f6f8; color:#222; line-height:1.6; }
+    header,footer { background:#263238; color:#fff; text-align:center; padding:18px; }
+    header h1,header p,footer p { margin:0; }
+    main { width:min(920px,92%); margin:24px auto; background:#fff; padding:28px 36px; border-radius:8px; box-shadow:0 2px 10px #0002; }
+    h2 { border-left:4px solid #455a64; padding-left:10px; }
+    fieldset { margin:18px 0; border:1px solid #bbb; padding:18px; border-radius:6px; }
+    legend { font-weight:bold; } .row { margin:14px 0; } .field-label { display:inline-block; width:100px; vertical-align:top; }
+    input,select,textarea,button { font:inherit; }
+    input[type="text"],input[type="password"],input[type="date"],input[type="email"],input[type="tel"],select,textarea {
+      width:min(420px,100%); padding:8px 10px; border:1px solid #aaa; border-radius:4px;
+    }
+    textarea { resize:vertical; vertical-align:top; } .choice-label { margin-right:14px; }
+    .hint { margin:2px 0 0 104px; color:#666; font-size:14px; } .error { color:#c62828; } .success { color:#2e7d32; }
+    button { padding:8px 22px; margin-right:12px; border:0; border-radius:4px; cursor:pointer; }
+    button[type="submit"] { background:#37474f; color:#fff; } button[type="reset"] { background:#e0e0e0; }
+    table { width:100%; border-collapse:collapse; margin:18px 0; } th,td { border:1px solid #999; padding:9px; text-align:center; } th { background:#eceff1; }
+    dl dt { font-weight:bold; margin-top:8px; } dl dd { margin-left:24px; }
+    @media (max-width:640px) { main { padding:20px; } .field-label { display:block; width:auto; } .hint { margin-left:0; } }
+  </style>
+<link rel="stylesheet" href="/Static/css/Global.css"/><link rel="stylesheet" href="/Web/css/Global.css"/><link rel="stylesheet" href="/Web/css/XYChatGPT.css"/></head>
+<body>
+<header><h1>用户注册</h1><p>欢迎注册 Web 学习平台</p></header>
+<main>
+  <section>
+    <h2>注册流程</h2>
+    <ul><li>填写基本信息</li><li>检查输入内容</li><li>提交注册表单</li></ul>
+    <ol><li>创建用户名和密码</li><li>补充联系方式及兴趣</li><li>点击“注册”完成提交</li></ol>
+  </section>
+
+  <form id="registerForm" action="#" method="post">
+    <fieldset><legend>注册信息</legend>
+      <div class="row"><label class="field-label" for="username">用户名：</label><input id="username" type="text" name="username" minlength="3" maxlength="20" placeholder="3-20 位字符" autocomplete="username" required></div>
+      <div class="row"><label class="field-label" for="password">密码：</label><input id="password" type="password" name="password" minlength="6" maxlength="16" placeholder="6-16 位字符" autocomplete="new-password" required></div>
+      <div class="row"><label class="field-label" for="confirmPassword">确认密码：</label><input id="confirmPassword" type="password" name="confirmPassword" minlength="6" maxlength="16" required><p id="passwordHint" class="hint">请再次输入相同密码</p></div>
+      <div class="row"><span class="field-label">性别：</span><input id="male" type="radio" name="gender" value="male" checked><label for="male" class="choice-label">男</label><label><input type="radio" name="gender" value="female"> 女</label></div>
+      <div class="row"><label class="field-label" for="birthday">出生日期：</label><input id="birthday" type="date" name="birthday"></div>
+      <div class="row"><label class="field-label" for="email">邮箱：</label><input id="email" type="email" name="email" placeholder="name@example.com" required></div>
+      <div class="row"><label class="field-label" for="phone">手机号：</label><input id="phone" type="tel" name="phone" pattern="[0-9]{11}" placeholder="11 位手机号"></div>
+      <div class="row"><span class="field-label">兴趣爱好：</span><label class="choice-label"><input type="checkbox" name="hobby" value="reading"> 阅读</label><label class="choice-label"><input type="checkbox" name="hobby" value="music"> 音乐</label><label><input type="checkbox" name="hobby" value="sports"> 运动</label></div>
+      <div class="row"><label class="field-label" for="avatar">头像上传：</label><input id="avatar" type="file" name="avatar" accept="image/*" multiple></div>
+      <div class="row"><label class="field-label" for="city">所在城市：</label><select id="city" name="city"><option value="changde" selected>常德</option><option value="changsha">长沙</option><option value="zhuzhou">株洲</option></select></div>
+      <div class="row"><label class="field-label" for="bio">个人简介：</label><textarea id="bio" name="bio" rows="4" cols="50" maxlength="200" placeholder="请简单介绍自己"></textarea><p id="bioCount" class="hint">已输入 0 / 200 字</p></div>
+      <button type="submit">注册</button><button type="reset">重置</button>
+      <p id="submitMessage" aria-live="polite"></p>
+    </fieldset>
+  </form>
+
+  <section>
+    <h2>注册须知</h2>
+    <table><thead><tr><th colspan="3">账号使用说明</th></tr><tr><th>项目</th><th>要求</th><th>说明</th></tr></thead>
+      <tbody><tr><td>用户名</td><td>3-20 位字符</td><td>用于登录与身份识别</td></tr><tr><td>密码</td><td>6-16 位字符</td><td>两次输入必须一致</td></tr><tr><td>邮箱</td><td>必填</td><td>须符合邮箱格式</td></tr><tr><td>手机号</td><td>11 位数字</td><td>使用 pattern 属性校验</td></tr></tbody></table>
+  </section>
+
+  <section><h2>常见问题</h2><dl><dt>required 是什么？</dt><dd>表示该控件为必填项。</dd><dt>name 有什么作用？</dt><dd>作为表单提交时的数据字段名。</dd><dt>pattern 有什么作用？</dt><dd>可使用正则表达式限制输入格式。</dd></dl></section>
+</main>
+<footer><p>&copy; 2026 Web 应用开发技术实验</p></footer>
+
+<script>
+  const form = document.getElementById('registerForm');
+  const password = document.getElementById('password');
+  const confirm
+  Password = document.getElementById('confirmPassword');
+  const passwordHint = document.getElementById('passwordHint');
+  const bio = document.getElementById('bio');
+  const bioCount = document.getElementById('bioCount');
+  const submitMessage = document.getElementById('submitMessage');
+
+  function checkPassword() {
+    if (!confirmPassword.value) { confirmPassword.setCustomValidity(''); passwordHint.textContent = '请再次输入相同密码'; passwordHint.className = 'hint'; return; }
+    const same = password.value === confirmPassword.value;
+    confirmPassword.setCustomValidity(same ? '' : '两次输入的密码不一致');
+    passwordHint.textContent = same ? '两次密码输入一致' : '两次输入的密码不一致';
+    passwordHint.className = same ? 'hint success' : 'hint error';
+  }
+
+  password.addEventListener('input', checkPassword);
+  confirmPassword.addEventListener('input', checkPassword);
+  bio.addEventListener('input', () => bioCount.textContent = `已输入 ${bio.value.length} / 200 字`);
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); checkPassword();
+    if (!form.checkValidity()) { form.reportValidity(); submitMessage.textContent = '请检查未通过验证的内容。'; submitMessage.className = 'error'; return; }
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    data.hobby = formData.getAll('hobby');
+    data.avatar = formData.getAll('avatar').map(file => file.name).filter(Boolean);
+    console.log('注册表单数据：', data);
+    submitMessage.textContent = '表单验证通过，数据已输出到 Console。';
+    submitMessage.className = 'success';
+  });
+
+  form.addEventListener('reset', () => setTimeout(() => {
+    confirmPassword.setCustomValidity(''); passwordHint.textContent = '请再次输入相同密码'; passwordHint.className = 'hint';
+    bioCount.textContent = '已输入 0 / 200 字'; submitMessage.textContent = '';
+  }));
+</script>
+<script src="/Static/js/jquery.js"></script><script src="/Static/js/Global.js"></script><script src="/Web/js/Global.js"></script><script src="/Web/js/XYChatGPT.js"></script></body>
+</html>
